@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package minesweeper_controller;
 
 import javafx.event.EventHandler;
@@ -12,14 +7,25 @@ import minesweeper_model.Case;
 import minesweeper_view.CaseView;
 
 /**
- *
+ * This controller is used to control a cell of the grid.
  * @author yannick
  */
 public class Controller_Case extends Controller implements EventHandler<MouseEvent>
 {
+    /**
+     * Concerned cell
+     */
     private Case c;
+    /**
+     * The view of this cell
+     */
     private CaseView cv;
     
+    /**
+     * Base constructor
+     * @param c The cell
+     * @param cv The view
+     */
     public Controller_Case(Case c, CaseView cv)
     {
         super();
@@ -27,17 +33,19 @@ public class Controller_Case extends Controller implements EventHandler<MouseEve
         this.cv = cv;
     }
 
+    /**
+     * Click gestion
+     * @param event 
+     */
     @Override
     public void handle(MouseEvent event)
     {
-        System.out.println("Click");
-        if(event.getButton() == MouseButton.PRIMARY)
+        if(event.getButton() == MouseButton.PRIMARY)//Left click
         {
-            System.out.println("Click gauche");
+
         }
-        else if(event.getButton() == MouseButton.SECONDARY)
+        else if(event.getButton() == MouseButton.SECONDARY)//Right click
         {
-            System.out.println("Click droit");
             c.invertFlag();
         }
     }
