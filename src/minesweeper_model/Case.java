@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package minesweeper_model;
 
 import java.util.Observable;
@@ -21,11 +16,21 @@ public class Case extends Observable
      * Tell if there is a flag on the case or not
      */
     private boolean flag;
+    /**
+     * Tell if there is a mine
+     */
+    private boolean mine;
+    /**
+     * The value of the cell (1 means that there is one mine on the neighborhood).
+     */
+    private int value;
 
     public Case()
     {
         visible = false;
         flag = false;
+        mine = false;
+        value = 0;
     }
 
     public boolean isVisible()
@@ -38,7 +43,27 @@ public class Case extends Observable
         this.visible = visible;
         this.modified();
     }
+    
+    public boolean isMine()
+    {
+        return this.mine;
+    }
+    
+    public void setMine(boolean mine)
+    {
+        this.mine = mine;
+    }
 
+    public int getValue()
+    {
+        return this.value;
+    }
+    
+    public void setValue(int value)
+    {
+        this.value = value;
+    }
+    
     public boolean isFlagged()
     {
         return flag;
@@ -60,5 +85,10 @@ public class Case extends Observable
     public void notifyObservers()
     {
         super.notifyObservers();
+    }
+
+    public void increaseValue()
+    {
+        this.value++;
     }
 }
