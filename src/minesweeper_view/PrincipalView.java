@@ -1,24 +1,22 @@
 package minesweeper_view;
 
-import java.util.Observable;
-import java.util.Observer;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import minesweeper_controller.Controller_Case;
 import minesweeper_model.Grid;
 
 /**
- *
+ * This class is the main view of the project. It create the grid, and display it.
  * @author yannick
  */
 public class PrincipalView extends Application
 {
+    /**
+     * The model grid
+     */
     private Grid grid;
 
     @Override

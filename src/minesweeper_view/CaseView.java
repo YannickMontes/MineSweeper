@@ -1,19 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package minesweeper_view;
 
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import java.util.Observable;
 import java.util.Observer;
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Text;
 import minesweeper_controller.Controller_Case;
 import minesweeper_model.Case;
 
@@ -32,7 +23,7 @@ public class CaseView extends Button implements Observer
     {
         this.c = c;
         this.c.addObserver(this);
-        this.repaint();
+        this.changeFlag();
         
         Controller_Case controller = new Controller_Case(c, this);
         this.setOnMouseClicked(controller);
@@ -41,11 +32,18 @@ public class CaseView extends Button implements Observer
     @Override
     public void update(Observable o, Object arg)
     {
-        System.out.println("J'ai été update");
-        this.repaint();
+        if(!c.isVisible())
+        {
+            this.changeFlag();   
+        }
+        else
+        {
+            //Afficher vide si vide, et annuler l'appui possible sur le bouton
+            //Afficher le chiffre si pas vide (et annuler l'appui).
+        }
     }
 
-    private void repaint()
+    private void changeFlag()
     {
         if(c.isFlagged())
         {
