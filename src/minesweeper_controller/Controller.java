@@ -3,13 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package minesweeper.controller;
+package minesweeper_controller;
 
 /**
  *
  * @author yannick
  */
-public class Controller
+public abstract class Controller
 {
     
+    public Controller()
+    {
+        
+    }
 }
