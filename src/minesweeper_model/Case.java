@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package minesweeper.model;
+package minesweeper_model;
+
+import java.util.Observable;
 
 /**
  * Representation of one case
  * @author yannick
  */
-public class Case
+public class Case extends Observable
 {
     /**
      * Tell if the case is visible or not
@@ -34,15 +36,29 @@ public class Case
     public void setVisible(boolean visible)
     {
         this.visible = visible;
+        this.modified();
     }
 
-    public boolean isDrapeau()
+    public boolean isFlagged()
     {
         return flag;
     }
 
-    public void setDrapeau(boolean drapeau)
+    public void invertFlag()
     {
-        this.flag = drapeau;
+        this.flag = !this.flag;
+        this.modified();
+    }
+    
+    public void modified()
+    {
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    @Override
+    public void notifyObservers()
+    {
+        super.notifyObservers();
     }
 }
