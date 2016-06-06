@@ -16,6 +16,16 @@ public class CaseView extends Button implements Observer
 {
     public static Image FLAG = new Image(CaseView.class.getResource("/minesweeper_images/flag.png").toExternalForm());   
     public static Image EMPTY = new Image(CaseView.class.getResource("/minesweeper_images/Empty.png").toExternalForm());
+    public static Image MINE = new Image(CaseView.class.getResource("/minesweeper_images/Mine.png").toExternalForm());
+    public static Image ONE = new Image(CaseView.class.getResource("/minesweeper_images/One.png").toExternalForm());
+    public static Image TWO = new Image(CaseView.class.getResource("/minesweeper_images/Two.png").toExternalForm());
+    public static Image THREE = new Image(CaseView.class.getResource("/minesweeper_images/Three.png").toExternalForm());
+    public static Image FOUR = new Image(CaseView.class.getResource("/minesweeper_images/Four.png").toExternalForm());
+    public static Image FIVE = new Image(CaseView.class.getResource("/minesweeper_images/Five.png").toExternalForm());
+    public static Image SIX = new Image(CaseView.class.getResource("/minesweeper_images/Six.png").toExternalForm());
+    public static Image SEVEN = new Image(CaseView.class.getResource("/minesweeper_images/Seven.png").toExternalForm());
+    public static Image EIGHT = new Image(CaseView.class.getResource("/minesweeper_images/Eight.png").toExternalForm());
+
     private Case c;
     private Image image;
     
