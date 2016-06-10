@@ -1,5 +1,6 @@
 package minesweeper_controller;
 
+import java.util.ArrayList;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -42,7 +43,8 @@ public class Controller_Case extends Controller implements EventHandler<MouseEve
     {
         if(event.getButton() == MouseButton.PRIMARY)//Left click
         {
-
+            this.c.showCases(c, new ArrayList<Case>());
+            
         }
         else if(event.getButton() == MouseButton.SECONDARY)//Right click
         {

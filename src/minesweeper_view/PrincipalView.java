@@ -22,7 +22,7 @@ public class PrincipalView extends Application
     @Override
     public void start(Stage stage) throws Exception
     {
-        this.grid = new Grid(8,8);
+        this.grid = new Grid(10,10);
         
         BorderPane border = new BorderPane();
         

@@ -11,8 +11,8 @@ public class Grid
     /**
      * Variables which contain the height and width of the grid
      */
-    private static int WIDTH_GRID;
-    private static int HEIGHT_GRID;
+    public final int WIDTH_GRID;
+    public final int HEIGHT_GRID;
     /**
      * Variable contenant le tableau
      */
@@ -35,16 +35,18 @@ public class Grid
      */
     private void initGrid()
     {
+        //Grid creation
         this.grid = new Case[HEIGHT_GRID][WIDTH_GRID];
         for(int i=0; i<HEIGHT_GRID; i++)
         {
             for(int j=0; j<WIDTH_GRID; j++)
             {
-                this.grid[i][j] = new Case();
+                this.grid[i][j] = new Case(i,j);
             }
         }
         
-        int nb_mines = 10;
+        //Mine random generation
+        int nb_mines = 15;
         
         ArrayList<Integer> mines = new ArrayList<>();
         for(int i=0; i<nb_mines; i++)
@@ -62,10 +64,14 @@ public class Grid
         {
             for(int j=0; j<WIDTH_GRID; j++)
             {
+                this.majNeighboors(i,j);
                 if(mines.contains(case_number))
                 {
                     this.grid[i][j].setMine(true);
-                    this.updateNeighborhood(i,j);
+                    for(Case c : this.grid[i][j].getNeighboors())
+                    {
+                        c.increaseValue();
+                    }
                 }
                 case_number++;
             }
@@ -73,6 +79,8 @@ public class Grid
         
         System.out.println(this);
     }
+    
+    //GET & SET
     
     public Case getCase(int i, int j)
     {
@@ -89,50 +97,59 @@ public class Grid
         return HEIGHT_GRID;
     }
 
-    private void updateNeighborhood(int i, int j)
+    /**
+     * Function used to put number on each neighbor case of a mine
+     * @param i The row of the actual mine case
+     * @param j The column of the actual mine case
+     */
+    private void majNeighboors(int i, int j)
     {
         try
         {
-            this.grid[i-1][j-1].increaseValue();
+            this.grid[i][j].addNeighboor(this.grid[i-1][j-1]);
         }
         catch(ArrayIndexOutOfBoundsException ex){}
         try
         {
-            this.grid[i-1][j].increaseValue();
+            this.grid[i][j].addNeighboor(this.grid[i-1][j]);
         }
         catch(ArrayIndexOutOfBoundsException ex){}
         try
         {
-            this.grid[i-1][j+1].increaseValue();
+            this.grid[i][j].addNeighboor(this.grid[i-1][j+1]);
         }
         catch(ArrayIndexOutOfBoundsException ex){}
         try
         {
-            this.grid[i][j-1].increaseValue();
+            this.grid[i][j].addNeighboor(this.grid[i][j-1]);
         }
         catch(ArrayIndexOutOfBoundsException ex){}
         try
         {
-            this.grid[i][j+1].increaseValue();
+            this.grid[i][j].addNeighboor(this.grid[i][j+1]);
         }
         catch(ArrayIndexOutOfBoundsException ex){}
         try
         {
-            this.grid[i+1][j-1].increaseValue();
+            this.grid[i][j].addNeighboor(this.grid[i+1][j-1]);
         }
         catch(ArrayIndexOutOfBoundsException ex){}
         try
         {
-            this.grid[i+1][j].increaseValue();
+            this.grid[i][j].addNeighboor(this.grid[i+1][j]);
         }
         catch(ArrayIndexOutOfBoundsException ex){}
         try
         {
-            this.grid[i+1][j+1].increaseValue();
+            this.grid[i][j].addNeighboor(this.grid[i+1][j+1]);
         }
         catch(ArrayIndexOutOfBoundsException ex){}
     }
-
+    
+    /**
+     * Override ToString function
+     * @return The grid in a string.
+     */
     @Override
     public String toString()
     {

@@ -42,17 +42,66 @@ public class CaseView extends Button implements Observer
     @Override
     public void update(Observable o, Object arg)
     {
-        if(!c.isVisible())
+        this.checkImage();
+    }
+
+    private void checkImage()
+    {
+        if(this.c.isVisible())
         {
-            this.changeFlag();   
+            switch(this.c.getValue())
+            {
+                case 0:
+                    this.image = EMPTY;
+                    break;
+                case 1:
+                    this.image = ONE;
+                    break;
+                case 2:
+                    this.image = TWO;
+                    break;
+                case 3:
+                    this.image = THREE;
+                    break;
+                case 4:
+                    this.image = FOUR;
+                    break;
+                case 5:
+                    this.image = FIVE;
+                    break;
+                case 6:
+                    this.image = SIX;
+                    break;
+                case 7:
+                    this.image = SEVEN;
+                    break;
+                case 8:
+                    this.image = EIGHT;
+                    break;
+                default:
+                    this.image = EMPTY;
+                    break;
+            }
+            if(this.c.isMine())
+            {
+                this.image = MINE;
+            }
+            this.setDisable(true);
         }
         else
         {
-            //Afficher vide si vide, et annuler l'appui possible sur le bouton
-            //Afficher le chiffre si pas vide (et annuler l'appui).
+            if(c.isFlagged())
+            {
+                this.image = FLAG;
+            }
+            else
+            {
+                this.image = EMPTY;
+            }
         }
+        this.setGraphic(new ImageView(this.image));
     }
-
+    
     private void changeFlag()
     {
         if(c.isFlagged())

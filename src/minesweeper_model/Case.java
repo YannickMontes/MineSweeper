@@ -1,5 +1,6 @@
 package minesweeper_model;
 
+import java.util.ArrayList;
 import java.util.Observable;
 
 /**
@@ -24,9 +25,22 @@ public class Case extends Observable
      * The value of the cell (1 means that there is one mine on the neighborhood).
      */
     private int value;
+    /**
+     * On which row is this case
+     */
+    private int row;
+    /**
+     * On which column is this case
+     */
+    private int column;
+    
+    private ArrayList<Case> neighboors;
 
-    public Case()
+    public Case(int i, int j)
     {
+        this.neighboors = new ArrayList<>();
+        this.row = i;
+        this.column = j;
         visible = false;
         flag = false;
         mine = false;
@@ -49,6 +63,11 @@ public class Case extends Observable
         return this.mine;
     }
     
+    public ArrayList<Case> getNeighboors()
+    {
+        return this.neighboors;
+    }
+    
     public void setMine(boolean mine)
     {
         this.mine = mine;
@@ -69,10 +88,47 @@ public class Case extends Observable
         return flag;
     }
 
+    public int getRow()
+    {
+        return row;
+    }
+
+    public int getColumn()
+    {
+        return column;
+    }  
+
     public void invertFlag()
     {
         this.flag = !this.flag;
         this.modified();
+    }
+    
+    public boolean isEmpty()
+    {
+        return this.value==0;
+    }
+    
+    public void addNeighboor(Case ngh)
+    {
+        this.neighboors.add(ngh);
+    }
+    
+    public void showCases(Case c, ArrayList<Case> visited)
+    {
+        c.setVisible(true);
+        visited.add(c);
+        if(c.isEmpty() && !c.isMine())
+        {
+            for(Case neigh : c.neighboors)
+            {
+                if(!visited.contains(neigh))// && (neigh.column==c.column || neigh.row==c.row))
+                {
+                    showCases(neigh, visited);
+                }
+            }
+        }
+        c.modified();
     }
     
     public void modified()
