@@ -9,10 +9,11 @@ import java.util.ArrayList;
 public class Grid
 {
     /**
-     * Variables which contain the height and width of the grid
+     * Variables which contain the height and width of the grid, and the number of mines
      */
     public final int WIDTH_GRID;
     public final int HEIGHT_GRID;
+    public final int MINE_NUMBER;
     /**
      * Variable contenant le tableau
      */
@@ -25,8 +26,23 @@ public class Grid
      */
     public Grid(int width, int height)
     {
-        WIDTH_GRID = width; 
-        HEIGHT_GRID = height;
+        this.WIDTH_GRID = width; 
+        this.HEIGHT_GRID = height;
+        this.MINE_NUMBER = width*height/5;
+        this.initGrid();
+    }
+    
+    /**
+     * Base constructor. Create the grid with width columns and height rows, and mine_number mines.s
+     * @param width Nb columns
+     * @param height Nb rows
+     * @param mine_number Number of mines
+     */
+    public Grid(int width, int height, int mine_number)
+    {
+        this.WIDTH_GRID = width; 
+        this.HEIGHT_GRID = height;
+        this.MINE_NUMBER = mine_number;
         this.initGrid();
     }
     
@@ -41,15 +57,14 @@ public class Grid
         {
             for(int j=0; j<WIDTH_GRID; j++)
             {
-                this.grid[i][j] = new Case(i,j);
+                this.grid[i][j] = new Case(i,j, this);
             }
         }
         
         //Mine random generation
-        int nb_mines = 15;
         
         ArrayList<Integer> mines = new ArrayList<>();
-        for(int i=0; i<nb_mines; i++)
+        for(int i=0; i<MINE_NUMBER; i++)
         {
             int nbAlea = 0;
             do

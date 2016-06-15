@@ -33,10 +33,14 @@ public class Case extends Observable
      * On which column is this case
      */
     private int column;
+    /**
+     * The grid parent, to know some variables in a fastest way.
+     */
+    public final Grid parent;
     
     private ArrayList<Case> neighboors;
 
-    public Case(int i, int j)
+    public Case(int i, int j, Grid p)
     {
         this.neighboors = new ArrayList<>();
         this.row = i;
@@ -45,8 +49,9 @@ public class Case extends Observable
         flag = false;
         mine = false;
         value = 0;
+        this.parent = p;
     }
-
+    
     public boolean isVisible()
     {
         return visible;

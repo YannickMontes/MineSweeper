@@ -99,7 +99,10 @@ public class CaseView extends Button implements Observer
                 this.image = EMPTY;
             }
         }
-        this.setGraphic(new ImageView(this.image));
+        ImageView im = new ImageView(this.image);
+        //im.setFitWidth(100);//this.widthImage());
+        //im.setFitHeight(100);//this.heightImage());
+        this.setGraphic(im);
     }
     
     private void changeFlag()
@@ -112,6 +115,19 @@ public class CaseView extends Button implements Observer
         {
             this.image = EMPTY;
         }
-        this.setGraphic(new ImageView(this.image));
+        ImageView im = new ImageView(this.image);
+        //im.setFitWidth(100);//this.widthImage());
+        //im.setFitHeight(100);//this.heightImage());
+        this.setGraphic(im);
+    }
+    
+    private int widthImage()
+    {
+        return 900/this.c.parent.WIDTH_GRID;
+    }
+    
+    private int heightImage()
+    {
+        return 800/this.c.parent.HEIGHT_GRID;
     }
 }
