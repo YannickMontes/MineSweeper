@@ -6,6 +6,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import minesweeper_model.Case;
 import minesweeper_view.CaseView;
+import minesweeper_view.PrincipalView;
 
 /**
  * This controller is used to control a cell of the grid.
@@ -21,16 +22,20 @@ public class Controller_Case extends Controller implements EventHandler<MouseEve
      * The view of this cell
      */
     private CaseView cv;
-    
+    /**
+     * Principal view
+     */
+    private PrincipalView parent;
     /**
      * Base constructor
      * @param c The cell
      * @param cv The view
      */
-    public Controller_Case(Case c, CaseView cv)
+    public Controller_Case(Case c, CaseView cv, PrincipalView p)
     {
         super();
         this.c = c;
+        this.parent = p;
         this.cv = cv;
     }
 
@@ -41,14 +46,32 @@ public class Controller_Case extends Controller implements EventHandler<MouseEve
     @Override
     public void handle(MouseEvent event)
     {
-        if(event.getButton() == MouseButton.PRIMARY)//Left click
+        //To begin, check if the case is hidden. If it's not, uselss to do the job.
+        if(!c.isVisible())
         {
-            this.c.showCases(c, new ArrayList<Case>());
-            
-        }
-        else if(event.getButton() == MouseButton.SECONDARY)//Right click
-        {
-            c.invertFlag();
+            if(event.getButton() == MouseButton.PRIMARY)//Then on Left click
+            {
+                if(c.isMine())//If it's a mine
+                {
+                    c.parent.showAll();//We put all the case visible
+                    parent.endGame(false);//End of the game, defeat
+                    return;
+                }
+                //We call the function to show all the neighborhood
+                this.c.showCases(c, new ArrayList<Case>());
+                //If the game is finished
+                if(this.c.parent.isGameFinished())
+                {
+                    //Victory
+                    c.parent.showAll();
+                    parent.endGame(true);
+                }
+            }
+            else if(event.getButton() == MouseButton.SECONDARY)//Then on Right click
+            {
+                //We invert the flag
+                c.invertFlag();
+           }   
         }
     }
 }

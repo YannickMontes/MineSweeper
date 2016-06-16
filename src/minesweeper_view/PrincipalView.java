@@ -31,15 +31,31 @@ public class PrincipalView extends Application
      * The model grid
      */
     private Grid gridGame;
+    /**
+     * Public constants for the screen size
+     */
+    public static int WIDTH_SCREEN = 1000;
+    public static int HEIGHT_SCREEN = 1000;
+    /**
+     * Variables
+     */
+    private BorderPane border;
+    private Stage stage;
 
+    /**
+     * Start function
+     * @param stage
+     * @throws Exception 
+     */
     @Override
     public void start(Stage stage) throws Exception
     {
+        this.stage = stage;
         this.gridGame = new Grid(10,10);
         stage.setResizable(false);
-        Scene scene = new Scene(new VBox(), 1200,1000, Color.LIGHTGRAY);
+        Scene scene = new Scene(new VBox(), WIDTH_SCREEN, HEIGHT_SCREEN, Color.LIGHTGRAY);
         MenuBar menuBar = new MenuBar();
-        BorderPane border = new BorderPane();
+        border = new BorderPane();
         
         
         Menu options = new Menu("Options");
@@ -50,55 +66,7 @@ public class PrincipalView extends Application
             @Override
             public void handle(ActionEvent t)
             {
-                Dialog param = new Dialog();
-                param.setResizable(false);
-                param.setTitle("New game");
-                
-                GridPane grid = new GridPane();
-                
-                Label width = new Label("Grid width (2 to 99): ");
-                NumberTextField widthEntry = new NumberTextField();
-                Label height = new Label("Grid height (2 to 99): ");
-                NumberTextField heightEntry = new NumberTextField();
-                Label mine_number = new Label("Mine number: ");
-                NumberTextField mineEntry = new NumberTextField();
-                
-                grid.add(width, 0, 0);
-                grid.add(height, 0, 1);
-                grid.add(mine_number, 0, 2);
-                grid.add(widthEntry, 1, 0);
-                grid.add(heightEntry, 1, 1);
-                grid.add(mineEntry, 1, 2);
-                
-                ButtonType create = new ButtonType("Create", ButtonBar.ButtonData.OK_DONE);
-                ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-                param.getDialogPane().getButtonTypes().addAll(cancel,create);
-                param.getDialogPane().setContent(grid);
-                param.setContentText("Configure your new game:");
-                
-                Optional<ButtonType> result = param.showAndWait();
-                                
-                if(result.isPresent() && result.get().getButtonData()==ButtonBar.ButtonData.OK_DONE)
-                {
-                    if(widthEntry.getText().isEmpty() || heightEntry.getText().isEmpty() || mineEntry.getText().isEmpty()
-                            && Integer.parseInt(widthEntry.getText()) >= 99 && Integer.parseInt(heightEntry.getText()) >= 99
-                            && Integer.parseInt(widthEntry.getText())*Integer.parseInt(heightEntry.getText()) < Integer.parseInt(mineEntry.getText()))
-                    {
-                        Alert alert = new Alert(Alert.AlertType.WARNING);
-                        alert.setTitle("Fail");
-                        alert.setHeaderText("Aborted. Parameters weren't right");
-                        alert.setContentText("-Height and width must not go over 99,\n"
-                                + "-Mine number must be lower than width*height.");
-                        alert.showAndWait();
-                    }
-                    else
-                    {
-                        gridGame = new Grid(Integer.parseInt(widthEntry.getText()), Integer.parseInt(heightEntry.getText()), Integer.parseInt(mineEntry.getText()));
-                        paintGrid(border);
-                    }
-                }
-                
-                
+                createNewGame();
             }
         });
         
@@ -120,17 +88,78 @@ public class PrincipalView extends Application
         stage.show();
     }
     
+    /**
+     * Function used to display a window with new game parameters
+     */
+    public void createNewGame()
+    {
+        Dialog param = new Dialog();
+        param.setResizable(false);
+        param.setTitle("New game");
+
+        GridPane grid = new GridPane();
+
+        Label width = new Label("Grid width (2 to 99): ");
+        NumberTextField widthEntry = new NumberTextField();
+        Label height = new Label("Grid height (2 to 99): ");
+        NumberTextField heightEntry = new NumberTextField();
+        Label mine_number = new Label("Mine number: ");
+        NumberTextField mineEntry = new NumberTextField();
+
+        grid.add(width, 0, 0);
+        grid.add(height, 0, 1);
+        grid.add(mine_number, 0, 2);
+        grid.add(widthEntry, 1, 0);
+        grid.add(heightEntry, 1, 1);
+        grid.add(mineEntry, 1, 2);
+
+        ButtonType create = new ButtonType("Create", ButtonBar.ButtonData.OK_DONE);
+        ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+        param.getDialogPane().getButtonTypes().addAll(cancel,create);
+        param.getDialogPane().setContent(grid);
+        param.setContentText("Configure your new game:");
+
+        Optional<ButtonType> result = param.showAndWait();
+
+        if(result.isPresent() && result.get().getButtonData()==ButtonBar.ButtonData.OK_DONE)
+        {
+            if(widthEntry.getText().isEmpty() || heightEntry.getText().isEmpty() || mineEntry.getText().isEmpty()
+                    || Integer.parseInt(widthEntry.getText()) < 2 || Integer.parseInt(heightEntry.getText()) < 2
+                    || Integer.parseInt(widthEntry.getText()) >= 99 || Integer.parseInt(heightEntry.getText()) >= 99
+                    || Integer.parseInt(widthEntry.getText())*Integer.parseInt(heightEntry.getText()) < Integer.parseInt(mineEntry.getText())
+                    || Integer.parseInt(mineEntry.getText()) < 1)
+            {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Fail");
+                alert.setHeaderText("Aborted. Parameters weren't right");
+                alert.setContentText("-Height and width must not go over 99,\n"
+                        + "-Mine number must be lower than width*height, and 1 or more.");
+                alert.showAndWait();
+                createNewGame();
+            }
+            else
+            {
+                gridGame = new Grid(Integer.parseInt(widthEntry.getText()), Integer.parseInt(heightEntry.getText()), Integer.parseInt(mineEntry.getText()));
+                paintGrid(border);
+            }
+        }
+    }
+    
+    /**
+     * Function used to paint the grid to the window
+     * @param border The borderPane which contain the grid.
+     */
     public void paintGrid(BorderPane border)
     {
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
-        gridPane.setGridLinesVisible(true);
+        //gridPane.setGridLinesVisible(true);
         
-        for(int i=0; i<this.gridGame.getHeightGrid(); i++)
+        for(int i=0; i<this.gridGame.HEIGHT_GRID; i++)
         {
-            for(int j=0; j<this.gridGame.getWidthGrid(); j++)
+            for(int j=0; j<this.gridGame.WIDTH_GRID; j++)
             {
-                CaseView cv = new CaseView(this.gridGame.getCase(i, j));
+                CaseView cv = new CaseView(this.gridGame.getCase(i, j), this);
                 gridPane.add(cv, i, j);
             }
         }
@@ -138,10 +167,57 @@ public class PrincipalView extends Application
         border.setCenter(gridPane);
     }
     
-    
+    /**
+     * Main function
+     * @param args 
+     */
     public static void main(String[] args)
     {
         launch(args);
     }
-    
+
+    /**
+     * Function used to show a dialog in case of victory or defeat.
+     * @param victory Victory or not
+     */
+    public void endGame(boolean victory)
+    {
+        if(victory)
+        {
+            Alert end = new Alert(Alert.AlertType.INFORMATION, "YOU WIN!", ButtonType.YES, ButtonType.NO);
+            end.setTitle("VICTORY");
+            end.setHeaderText("Field is successfully cleared!");
+            end.setContentText("Again?");
+            end.showAndWait();
+            if(end.getResult() == ButtonType.YES)
+            {
+                createNewGame();
+            }
+            else
+            {
+                stage.close();
+            }
+        }
+        else
+        {
+            Alert end = new Alert(Alert.AlertType.ERROR, "GAME OVER! YOU FIND A MINE!", new ButtonType("Same grid"), ButtonType.YES, ButtonType.NO);
+            end.setTitle("GAME OVER");
+            end.setHeaderText("GAME OVER! YOU FIND A MINE!");
+            end.setContentText("Retry?");
+            end.showAndWait();
+            if(end.getResult() == ButtonType.YES)
+            {
+                createNewGame();
+            }
+            else if(end.getResult().getButtonData() == ButtonBar.ButtonData.OTHER)
+            {
+                this.gridGame = new Grid(this.gridGame.WIDTH_GRID, this.gridGame.HEIGHT_GRID, this.gridGame.MINE_NUMBER);
+                paintGrid(border);
+            }
+            else
+            {
+                stage.close();
+            }
+        }          
+    }
 }

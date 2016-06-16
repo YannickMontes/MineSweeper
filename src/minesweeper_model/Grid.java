@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  * This class symbolize the board of the game.
- * @author yannick
+ * @author Yannick Montes
  */
 public class Grid
 {
@@ -102,15 +102,25 @@ public class Grid
         return this.grid[i][j];
     }
     
-    public int getWidthGrid()
+    /**
+     * Used to know if the game is finished or not. Check if cases not visibles 
+     * but not mines still remain.
+     * @return True if it's finish, False else.
+     */
+    public boolean isGameFinished()
     {
-        return WIDTH_GRID;
-    }
-    
-    public int getHeightGrid()
-    {
-        return HEIGHT_GRID;
-    }
+        for(int i=0; i<HEIGHT_GRID; i++)
+        {
+            for(int j=0; j<WIDTH_GRID; j++)
+            {
+                if(!this.grid[i][j].isMine() && !this.grid[i][j].isVisible())
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }       
 
     /**
      * Function used to put number on each neighbor case of a mine
@@ -159,6 +169,20 @@ public class Grid
             this.grid[i][j].addNeighboor(this.grid[i+1][j+1]);
         }
         catch(ArrayIndexOutOfBoundsException ex){}
+    }
+    
+    /**
+     * Put all the case of the grid visible
+     */
+    public void showAll()
+    {
+        for(int i=0; i<HEIGHT_GRID; i++)
+        {
+            for(int j=0; j<WIDTH_GRID; j++)
+            {
+                this.grid[i][j].setVisible(true);
+            }
+        }
     }
     
     /**

@@ -9,11 +9,16 @@ import minesweeper_controller.Controller_Case;
 import minesweeper_model.Case;
 
 /**
- *
- * @author yannick
+ * This class represent the view of a case, in order to respect the MVC design
+ * pattern. This is what is shown on the screen, the representation of a case.
+ * @author Yannick Montes
  */
 public class CaseView extends Button implements Observer
 {
+    /**
+     * All the images that a caseview can display.
+     * Static because it's a way to handle it in a better way, faster and with small weight.
+     */
     public static Image FLAG = new Image(CaseView.class.getResource("/minesweeper_images/flag.png").toExternalForm());   
     public static Image EMPTY = new Image(CaseView.class.getResource("/minesweeper_images/Empty.png").toExternalForm());
     public static Image MINE = new Image(CaseView.class.getResource("/minesweeper_images/Mine.png").toExternalForm());
@@ -26,25 +31,45 @@ public class CaseView extends Button implements Observer
     public static Image SEVEN = new Image(CaseView.class.getResource("/minesweeper_images/Seven.png").toExternalForm());
     public static Image EIGHT = new Image(CaseView.class.getResource("/minesweeper_images/Eight.png").toExternalForm());
 
+    /**
+     * Observed case
+     */
     private Case c;
+    /**
+     * Image to display
+     */
     private Image image;
     
-    public CaseView(Case c)
+    /**
+     * Base constructor
+     * @param c The case that is represented by this instance
+     * @param p The principal view parent.
+     */
+    public CaseView(Case c, PrincipalView p)
     {
         this.c = c;
         this.c.addObserver(this);
         this.changeFlag();
         
-        Controller_Case controller = new Controller_Case(c, this);
+        Controller_Case controller = new Controller_Case(c, this, p);
         this.setOnMouseClicked(controller);
     }
 
+    /**
+     * Update function of MVC pattern
+     * @param o What we observe
+     * @param arg Arguments
+     */
     @Override
     public void update(Observable o, Object arg)
     {
         this.checkImage();
     }
 
+    /**
+     * Used to check and update the variable image, set to what's on the case 
+     * (number, mine, not visible, flag).
+     */
     private void checkImage()
     {
         if(this.c.isVisible())
@@ -100,8 +125,8 @@ public class CaseView extends Button implements Observer
             }
         }
         ImageView im = new ImageView(this.image);
-        //im.setFitWidth(100);//this.widthImage());
-        //im.setFitHeight(100);//this.heightImage());
+        im.setFitWidth(this.widthImage());
+        im.setFitHeight(this.heightImage());
         this.setGraphic(im);
     }
     
@@ -116,18 +141,26 @@ public class CaseView extends Button implements Observer
             this.image = EMPTY;
         }
         ImageView im = new ImageView(this.image);
-        //im.setFitWidth(100);//this.widthImage());
-        //im.setFitHeight(100);//this.heightImage());
+        im.setFitWidth(this.widthImage());
+        im.setFitHeight(this.heightImage());
         this.setGraphic(im);
     }
     
+    /**
+     * Calculate the width of each image
+     * @return 
+     */
     private int widthImage()
     {
-        return 900/this.c.parent.WIDTH_GRID;
+        return PrincipalView.WIDTH_SCREEN/this.c.parent.WIDTH_GRID;
     }
     
+    /**
+     * Calculate the height of each image
+     * @return 
+     */
     private int heightImage()
     {
-        return 800/this.c.parent.HEIGHT_GRID;
+        return PrincipalView.HEIGHT_SCREEN/this.c.parent.HEIGHT_GRID;
     }
 }

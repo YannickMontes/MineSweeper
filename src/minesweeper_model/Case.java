@@ -5,7 +5,7 @@ import java.util.Observable;
 
 /**
  * Representation of one case
- * @author yannick
+ * @author Yannick Montes
  */
 public class Case extends Observable
 {
@@ -81,11 +81,6 @@ public class Case extends Observable
     public int getValue()
     {
         return this.value;
-    }
-    
-    public void setValue(int value)
-    {
-        this.value = value;
     }
     
     public boolean isFlagged()

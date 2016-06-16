@@ -3,8 +3,8 @@ package minesweeper_view;
 import javafx.scene.control.TextField;
 
 /**
- *
- * @author yannick
+ * The class of a only number textfield.
+ * @author Yannick Montes
  */
 public class NumberTextField extends TextField
 {
