@@ -125,8 +125,8 @@ public class CaseView extends Button implements Observer
             }
         }
         ImageView im = new ImageView(this.image);
-        im.setFitWidth(this.widthImage());
-        im.setFitHeight(this.heightImage());
+        //im.setFitWidth(this.widthImage());
+        //im.setFitHeight(this.heightImage());
         this.setGraphic(im);
     }
     
@@ -141,8 +141,8 @@ public class CaseView extends Button implements Observer
             this.image = EMPTY;
         }
         ImageView im = new ImageView(this.image);
-        im.setFitWidth(this.widthImage());
-        im.setFitHeight(this.heightImage());
+        //im.setFitWidth(this.widthImage());
+        //im.setFitHeight(this.heightImage());
         this.setGraphic(im);
     }
     
@@ -150,7 +150,7 @@ public class CaseView extends Button implements Observer
      * Calculate the width of each image
      * @return 
      */
-    private int widthImage()
+    private double widthImage()
     {
         return PrincipalView.WIDTH_SCREEN/this.c.parent.WIDTH_GRID;
     }
@@ -159,7 +159,7 @@ public class CaseView extends Button implements Observer
      * Calculate the height of each image
      * @return 
      */
-    private int heightImage()
+    private double heightImage()
     {
         return PrincipalView.HEIGHT_SCREEN/this.c.parent.HEIGHT_GRID;
     }

@@ -23,7 +23,7 @@ import minesweeper_model.Grid;
 
 /**
  * This class is the main view of the project. It create the grid, and display it.
- * @author yannick
+ * @author Yannick Montes
  */
 public class PrincipalView extends Application
 {
@@ -34,13 +34,14 @@ public class PrincipalView extends Application
     /**
      * Public constants for the screen size
      */
-    public static int WIDTH_SCREEN = 1000;
-    public static int HEIGHT_SCREEN = 1000;
+    public final static int WIDTH_SCREEN = 1000;
+    public final static int HEIGHT_SCREEN = 1000;
     /**
      * Variables
      */
     private BorderPane border;
     private Stage stage;
+    public MenuItem restart;
 
     /**
      * Start function
@@ -48,12 +49,12 @@ public class PrincipalView extends Application
      * @throws Exception 
      */
     @Override
-    public void start(Stage stage) throws Exception
+    public void start(Stage s) throws Exception
     {
-        this.stage = stage;
+        this.stage = s;
         this.gridGame = new Grid(10,10);
-        stage.setResizable(false);
-        Scene scene = new Scene(new VBox(), WIDTH_SCREEN, HEIGHT_SCREEN, Color.LIGHTGRAY);
+        //stage.setResizable(false);
+        Scene scene = new Scene(new VBox(), Color.LIGHTGRAY);
         MenuBar menuBar = new MenuBar();
         border = new BorderPane();
         
@@ -70,7 +71,16 @@ public class PrincipalView extends Application
             }
         });
         
-        MenuItem restart = new MenuItem("Restart");
+        restart = new MenuItem("Restart");
+        restart.setOnAction(new EventHandler<ActionEvent>()
+        {
+            @Override
+            public void handle(ActionEvent t)
+            {
+                gridGame = new Grid(gridGame.WIDTH_GRID, gridGame.HEIGHT_GRID, gridGame.MINE_NUMBER);
+                paintGrid(border);
+            }
+        });
         restart.setDisable(true);
         options.getItems().addAll(start, restart);
         Menu help = new Menu("?");
@@ -130,10 +140,11 @@ public class PrincipalView extends Application
                     || Integer.parseInt(mineEntry.getText()) < 1)
             {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setResizable(true);
                 alert.setTitle("Fail");
                 alert.setHeaderText("Aborted. Parameters weren't right");
                 alert.setContentText("-Height and width must not go over 99,\n"
-                        + "-Mine number must be lower than width*height, and 1 or more.");
+                        + "-Mine number must be lower than width*height, and higher or equals than 1.");
                 alert.showAndWait();
                 createNewGame();
             }
@@ -154,17 +165,19 @@ public class PrincipalView extends Application
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
         //gridPane.setGridLinesVisible(true);
-        
+        gridPane.setHgap(0);
+        gridPane.setVgap(0);
         for(int i=0; i<this.gridGame.HEIGHT_GRID; i++)
         {
             for(int j=0; j<this.gridGame.WIDTH_GRID; j++)
             {
                 CaseView cv = new CaseView(this.gridGame.getCase(i, j), this);
-                gridPane.add(cv, i, j);
+                gridPane.add(cv, j, i);
             }
         }
-        
         border.setCenter(gridPane);
+        //gridPane.setMaxSize(WIDTH_SCREEN, HEIGHT_SCREEN);
+        //border.setMaxSize(WIDTH_SCREEN, HEIGHT_SCREEN);
     }
     
     /**

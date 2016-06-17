@@ -69,9 +69,13 @@ public class Controller_Case extends Controller implements EventHandler<MouseEve
             }
             else if(event.getButton() == MouseButton.SECONDARY)//Then on Right click
             {
-                //We invert the flag
+                //We invert the flag, if there is less flags than the number of mines
                 c.invertFlag();
-           }   
+            }
+            if(this.parent.restart.isDisable())
+            {
+                this.parent.restart.setDisable(false);
+            }
         }
     }
 }

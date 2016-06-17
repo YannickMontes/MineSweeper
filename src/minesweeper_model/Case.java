@@ -100,6 +100,18 @@ public class Case extends Observable
 
     public void invertFlag()
     {
+        if(!this.flag)
+        {
+            if(!this.parent.canPutFlag())
+            {
+                return;
+            }
+            this.parent.incrementFlagNumber();
+        }
+        else
+        {
+            this.parent.decrementFlagNumber();
+        }
         this.flag = !this.flag;
         this.modified();
     }

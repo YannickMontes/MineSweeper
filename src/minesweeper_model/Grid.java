@@ -15,9 +15,13 @@ public class Grid
     public final int HEIGHT_GRID;
     public final int MINE_NUMBER;
     /**
-     * Variable contenant le tableau
+     * Variable for the grid
      */
     private Case[][] grid;
+    /**
+     * Variable used to count the number of flahs on theœ&±(' grid
+     */
+    private int NB_FLAGS;
     
     /**
      * Base constructor. Create the grid with width columns and height rows.
@@ -29,6 +33,7 @@ public class Grid
         this.WIDTH_GRID = width; 
         this.HEIGHT_GRID = height;
         this.MINE_NUMBER = width*height/5;
+        this.NB_FLAGS = 0;
         this.initGrid();
     }
     
@@ -43,6 +48,7 @@ public class Grid
         this.WIDTH_GRID = width; 
         this.HEIGHT_GRID = height;
         this.MINE_NUMBER = mine_number;
+        this.NB_FLAGS = 0;
         this.initGrid();
     }
     
@@ -211,6 +217,25 @@ public class Grid
         
         return text;
     }
-    
-    
+
+    public boolean canPutFlag()
+    {
+        return this.NB_FLAGS < this.MINE_NUMBER; 
+    }
+
+    public void incrementFlagNumber()
+    {
+        if(this.NB_FLAGS < this.MINE_NUMBER)
+        {
+            this.NB_FLAGS++;
+        }
+    }
+
+    public void decrementFlagNumber()
+    {
+        if(this.NB_FLAGS > 0)
+        {
+            this.NB_FLAGS--;
+        }
+    }
 }
