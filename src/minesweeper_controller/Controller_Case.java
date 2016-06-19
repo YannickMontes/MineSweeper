@@ -5,7 +5,6 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import minesweeper_model.Case;
-import minesweeper_view.CaseView;
 import minesweeper_view.PrincipalView;
 
 /**
@@ -19,10 +18,6 @@ public class Controller_Case extends Controller implements EventHandler<MouseEve
      */
     private Case c;
     /**
-     * The view of this cell
-     */
-    private CaseView cv;
-    /**
      * Principal view
      */
     private PrincipalView parent;
@@ -31,12 +26,11 @@ public class Controller_Case extends Controller implements EventHandler<MouseEve
      * @param c The cell
      * @param cv The view
      */
-    public Controller_Case(Case c, CaseView cv, PrincipalView p)
+    public Controller_Case(Case c, PrincipalView p)
     {
         super();
         this.c = c;
         this.parent = p;
-        this.cv = cv;
     }
 
     /**

@@ -52,7 +52,7 @@ public class PrincipalView extends Application
     public void start(Stage s) throws Exception
     {
         this.stage = s;
-        this.gridGame = new Grid(10,10);
+        this.gridGame = new Grid(10,10, 20);
         //stage.setResizable(false);
         Scene scene = new Scene(new VBox(), Color.LIGHTGRAY);
         MenuBar menuBar = new MenuBar();

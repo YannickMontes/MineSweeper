@@ -51,7 +51,7 @@ public class CaseView extends Button implements Observer
         this.c.addObserver(this);
         this.changeFlag();
         
-        Controller_Case controller = new Controller_Case(c, this, p);
+        Controller_Case controller = new Controller_Case(c, p);
         this.setOnMouseClicked(controller);
     }
 
@@ -141,8 +141,6 @@ public class CaseView extends Button implements Observer
             this.image = EMPTY;
         }
         ImageView im = new ImageView(this.image);
-        //im.setFitWidth(this.widthImage());
-        //im.setFitHeight(this.heightImage());
         this.setGraphic(im);
     }
     
